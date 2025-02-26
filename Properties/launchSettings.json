@@ -1,0 +1,17 @@
+{
+    "profiles": {
+      "IIS Express": {
+        "commandName": "IISExpress",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      "it-helpdesk-api": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      }
+    }
+  }
