@@ -100,5 +100,44 @@ namespace ITHelpdeskAPI.Controllers
             _helpdeskService.DeleteCase(id);
             return NoContent();
         }
+
+        [HttpGet("{CreateCases},{NumberOfCases}")]
+        [SwaggerOperation(Summary = "Create three helpdesk cases")]
+        [SwaggerResponse(200, "Returns all helpdesk cases", typeof(IEnumerable<HelpdeskCase>))]
+        [SwaggerResponse(500, "Internal server error")]
+        [DisplayName("Get all helpdesk cases")]
+       public  ActionResult<IEnumerable<HelpdeskCase>> CreateCases(string CreateCases, string NumberOfCases)
+        {
+            HelpdeskCase[]? hdCase = new HelpdeskCase[3];
+            hdCase[0] = new HelpdeskCase();
+            hdCase[0].Id = Guid.NewGuid();
+            hdCase[0].OpenedBy = "John Freeman";
+            hdCase[0].Title = "Problem with VPN";
+            hdCase[0].Description = "VPN will not connect.";
+            hdCase[0].AssignedTo = "Shri Ilich";
+            hdCase[0].Priority = "Normal";
+            
+            hdCase[1] = new HelpdeskCase();
+            hdCase[1].Id = Guid.NewGuid();
+            hdCase[1].OpenedBy = "Steve Rogers";
+            hdCase[1].Title = "Locked out of computer";
+            hdCase[1].Description = "Computer will turn on, but does not accept password.";
+            hdCase[1].AssignedTo = "Bob Smith";
+            hdCase[1].Priority = "Urgent";
+            
+            hdCase[2] = new HelpdeskCase();
+            hdCase[2].Id = Guid.NewGuid();
+            hdCase[2].OpenedBy = "Bharath Kumar";
+            hdCase[2].Title = "Windows update failure";
+            hdCase[2].Description = "Windows update fails to install.";
+            hdCase[2].AssignedTo = "Shri Ilich";
+            hdCase[2].Priority = "Normal";
+
+            foreach (var case1 in hdCase)
+            {
+                _helpdeskService.AddCase(case1);
+            }
+            var cases = _helpdeskService.GetAllCases();
+            return Ok(cases);       }
     }
 }
