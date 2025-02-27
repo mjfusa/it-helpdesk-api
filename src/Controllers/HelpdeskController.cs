@@ -20,7 +20,7 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all helpdesk cases", OperationId="idGetAllCases")]
+        [SwaggerOperation(Summary = "Get all helpdesk cases", OperationId = "idGetAllCases")]
         [SwaggerResponse(200, "Returns all helpdesk cases", typeof(IEnumerable<HelpdeskCase>))]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Get all helpdesk cases")]
@@ -31,11 +31,13 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Get a helpdesk case by ID", OperationId="idGetCaseById")]
+        [SwaggerOperation(Summary = "Get a helpdesk case by ID", OperationId = "idGetCaseById")]
         [SwaggerResponse(200, "Returns the helpdesk case", typeof(HelpdeskCase))]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
-        public ActionResult<HelpdeskCase> GetCase(Guid id)
+        public ActionResult<HelpdeskCase> GetCase(
+            [SwaggerParameter("Case id", Required = true)]
+            Guid id)
         {
             var helpdeskCase = _helpdeskService.GetCaseById(id);
             if (helpdeskCase == null)
@@ -46,12 +48,14 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Create a new helpdesk case", OperationId="idCreateCase")]
+        [SwaggerOperation(Summary = "Create a new helpdesk case", OperationId = "idCreateCase")]
         [SwaggerResponse(201, "Helpdesk case created", typeof(HelpdeskCase))]
         [SwaggerResponse(400, "Bad request")]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Create a new helpdesk case")]
-        public ActionResult<HelpdeskCase> CreateCase([FromBody] HelpdeskCase helpdeskCase)
+        public ActionResult<HelpdeskCase> CreateCase(
+            [FromBody, SwaggerParameter("A HelpdeskCase object", Required = true)]
+            HelpdeskCase helpdeskCase)
         {
             if (helpdeskCase == null)
             {
@@ -63,13 +67,17 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Update an existing helpdesk case", OperationId="idUpdateCase")]
+        [SwaggerOperation(Summary = "Update an existing helpdesk case", OperationId = "idUpdateCase")]
         [SwaggerResponse(204, "Helpdesk case updated")]
         [SwaggerResponse(400, "Bad request")]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Update an existing helpdesk case")]
-        public ActionResult UpdateCase(Guid id, [FromBody] HelpdeskCase helpdeskCase)
+        public ActionResult UpdateCase(
+            [SwaggerParameter("Id of Case", Required = true)]
+            Guid id,
+            [FromBody,SwaggerParameter("A Helpdeskcase object", Required = true)]
+            HelpdeskCase helpdeskCase)
         {
             if (helpdeskCase == null || helpdeskCase.Id != id)
             {
@@ -87,12 +95,14 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [SwaggerOperation(Summary = "Delete a helpdesk case", OperationId="idDeleteCase")]
+        [SwaggerOperation(Summary = "Delete a helpdesk case", OperationId = "idDeleteCase")]
         [SwaggerResponse(204, "Helpdesk case deleted")]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Delete a helpdesk case")]
-        public ActionResult DeleteCase(Guid id)
+        public ActionResult DeleteCase(
+            [SwaggerParameter("Id of Case", Required = true)]
+            Guid id)
         {
             var existingCase = _helpdeskService.GetCaseById(id);
             if (existingCase == null)
@@ -105,11 +115,15 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpGet("{CreateCases},{NumberOfCases}")]
-        [SwaggerOperation(Summary = "Create three helpdesk cases", OperationId="idCreateStarterCases")]
+        [SwaggerOperation(Summary = "Create three helpdesk cases", OperationId = "idCreateStarterCases")]
         [SwaggerResponse(200, "Returns all helpdesk cases", typeof(IEnumerable<HelpdeskCase>))]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Get all helpdesk cases")]
-       public  ActionResult<IEnumerable<HelpdeskCase>> CreateCases(string CreateCases, string NumberOfCases)
+        public ActionResult<IEnumerable<HelpdeskCase>> CreateCases(
+        [SwaggerParameter("Command 'CreateCases'", Required = false)]
+        string CreateCases,
+        [SwaggerParameter("Number of cases to create", Required = false)]
+        string NumberOfCases)
         {
             HelpdeskCase[]? hdCase = new HelpdeskCase[3];
             hdCase[0] = new HelpdeskCase();
@@ -119,7 +133,7 @@ namespace ITHelpdeskAPI.Controllers
             hdCase[0].Description = "VPN will not connect.";
             hdCase[0].AssignedTo = "Shri Ilich";
             hdCase[0].Priority = "Normal";
-            
+
             hdCase[1] = new HelpdeskCase();
             hdCase[1].Id = Guid.NewGuid();
             hdCase[1].OpenedBy = "Steve Rogers";
@@ -127,7 +141,7 @@ namespace ITHelpdeskAPI.Controllers
             hdCase[1].Description = "Computer will turn on, but does not accept password.";
             hdCase[1].AssignedTo = "Bob Smith";
             hdCase[1].Priority = "Urgent";
-            
+
             hdCase[2] = new HelpdeskCase();
             hdCase[2].Id = Guid.NewGuid();
             hdCase[2].OpenedBy = "Bharath Kumar";
@@ -141,6 +155,7 @@ namespace ITHelpdeskAPI.Controllers
                 _helpdeskService.AddCase(case1);
             }
             var cases = _helpdeskService.GetAllCases();
-            return Ok(cases);       }
+            return Ok(cases);
+        }
     }
 }
