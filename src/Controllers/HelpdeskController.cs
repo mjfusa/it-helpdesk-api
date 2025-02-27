@@ -20,7 +20,7 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all helpdesk cases")]
+        [SwaggerOperation(Summary = "Get all helpdesk cases", OperationId="idGetAllCases")]
         [SwaggerResponse(200, "Returns all helpdesk cases", typeof(IEnumerable<HelpdeskCase>))]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Get all helpdesk cases")]
@@ -31,7 +31,10 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Get a helpdesk case by ID")]
+        [SwaggerOperation(Summary = "Get a helpdesk case by ID", OperationId="idGetCaseById")]
+        [SwaggerResponse(200, "Returns the helpdesk case", typeof(HelpdeskCase))]
+        [SwaggerResponse(404, "Helpdesk case not found")]
+        [SwaggerResponse(500, "Internal server error")]
         public ActionResult<HelpdeskCase> GetCase(Guid id)
         {
             var helpdeskCase = _helpdeskService.GetCaseById(id);
@@ -43,7 +46,7 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Create a new helpdesk case")]
+        [SwaggerOperation(Summary = "Create a new helpdesk case", OperationId="idCreateCase")]
         [SwaggerResponse(201, "Helpdesk case created", typeof(HelpdeskCase))]
         [SwaggerResponse(400, "Bad request")]
         [SwaggerResponse(500, "Internal server error")]
@@ -60,7 +63,7 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Update an existing helpdesk case")]
+        [SwaggerOperation(Summary = "Update an existing helpdesk case", OperationId="idUpdateCase")]
         [SwaggerResponse(204, "Helpdesk case updated")]
         [SwaggerResponse(400, "Bad request")]
         [SwaggerResponse(404, "Helpdesk case not found")]
@@ -84,7 +87,7 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [SwaggerOperation(Summary = "Delete a helpdesk case")]
+        [SwaggerOperation(Summary = "Delete a helpdesk case", OperationId="idDeleteCase")]
         [SwaggerResponse(204, "Helpdesk case deleted")]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
@@ -102,7 +105,7 @@ namespace ITHelpdeskAPI.Controllers
         }
 
         [HttpGet("{CreateCases},{NumberOfCases}")]
-        [SwaggerOperation(Summary = "Create three helpdesk cases")]
+        [SwaggerOperation(Summary = "Create three helpdesk cases", OperationId="idCreateStarterCases")]
         [SwaggerResponse(200, "Returns all helpdesk cases", typeof(IEnumerable<HelpdeskCase>))]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Get all helpdesk cases")]
