@@ -120,9 +120,9 @@ namespace ITHelpdeskAPI.Controllers
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Get all helpdesk cases")]
         public ActionResult<IEnumerable<HelpdeskCase>> CreateCases(
-        [SwaggerParameter("Command 'CreateCases'", Required = false)]
+        [SwaggerParameter("Command 'CreateCases'", Required = true)]
         string CreateCases,
-        [SwaggerParameter("Number of cases to create", Required = false)]
+        [SwaggerParameter("Number of cases to create", Required = true)]
         string NumberOfCases)
         {
             HelpdeskCase[]? hdCase = new HelpdeskCase[3];
