@@ -18,7 +18,7 @@ public class Startup
             c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
             {
                 Title = "IT Helpdesk API",
-                Version = "v1",
+                Version = "1.0.0",
                 Description = "API for managing IT helpdesk cases",
             });
         });
