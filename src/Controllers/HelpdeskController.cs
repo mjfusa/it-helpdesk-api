@@ -66,17 +66,18 @@ namespace ITHelpdeskAPI.Controllers
             return CreatedAtAction(nameof(GetCase), new { id = helpdeskCase.Id }, helpdeskCase);
         }
 
-        [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Update an existing helpdesk case", OperationId = "idUpdateCase", Description = "Updates an existing helpdesk case")]
+        // Include a HttpPatch method to update specific fields of a helpdesk case
+        [HttpPatch("{id}")]
+        [SwaggerOperation(Summary = "Update specific fields of a helpdesk case", OperationId = "idPatchCase", Description = "Updates specific fields of a helpdesk case")]
         [SwaggerResponse(204, "Helpdesk case updated")]
         [SwaggerResponse(400, "Bad request")]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
-        [DisplayName("Update an existing helpdesk case")]
+        [DisplayName("Update specific fields of a helpdesk case")]
         public ActionResult UpdateCase(
             [SwaggerParameter("Id of Case", Required = true)]
             Guid id,
-            [FromBody,SwaggerParameter("A Helpdeskcase object", Required = true)]
+            [FromBody, SwaggerParameter("A HelpdeskCase object", Required = true)]
             HelpdeskCase helpdeskCase)
         {
             if (helpdeskCase == null || helpdeskCase.Id != id)
@@ -93,6 +94,34 @@ namespace ITHelpdeskAPI.Controllers
             _helpdeskService.UpdateCase(id, helpdeskCase);
             return NoContent();
         }
+        
+        // [HttpPut("{id}")]
+        // [SwaggerOperation(Summary = "Update an existing helpdesk case", OperationId = "idUpdateCase", Description = "Updates an existing helpdesk case")]
+        // [SwaggerResponse(204, "Helpdesk case updated")]
+        // [SwaggerResponse(400, "Bad request")]
+        // [SwaggerResponse(404, "Helpdesk case not found")]
+        // [SwaggerResponse(500, "Internal server error")]
+        // [DisplayName("Update an existing helpdesk case")]
+        // public ActionResult UpdateCase(
+        //     [SwaggerParameter("Id of Case", Required = true)]
+        //     Guid id,
+        //     [FromBody,SwaggerParameter("A Helpdeskcase object", Required = true)]
+        //     HelpdeskCase helpdeskCase)
+        // {
+        //     if (helpdeskCase == null || helpdeskCase.Id != id)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     var existingCase = _helpdeskService.GetCaseById(id);
+        //     if (existingCase == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     _helpdeskService.UpdateCase(id, helpdeskCase);
+        //     return NoContent();
+        // }
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete a helpdesk case", OperationId = "idDeleteCase", Description = "Deletes a helpdesk case by its ID")]
