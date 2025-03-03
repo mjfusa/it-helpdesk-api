@@ -32,7 +32,7 @@ public class Startup
             app.UseDeveloperExceptionPage();
             app.UseSwagger(options =>
             {
-                options.SerializeAsV2 = true;
+                // options.SerializeAsV2 = true;
                 options.PreSerializeFilters.Add((swagger, httpReq) =>
                 swagger.Servers.Add(new OpenApiServer { Url = $"https://it-helpdesk-101.azurewebsites.net" }));
             });
