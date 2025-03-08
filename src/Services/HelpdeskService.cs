@@ -10,7 +10,48 @@ namespace ITHelpdeskAPI.Services
 
         public HelpdeskService()
         {
-            _cases = new List<HelpdeskCase>();
+            _cases = new List<HelpdeskCase>
+            {
+                new HelpdeskCase
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    OpenedBy = "John Freeman",
+                    OpenedDate = DateTime.UtcNow,
+                    Title = "Problem with VPN",
+                    Description = "VPN will not connect.",
+                    AssignedTo = "Shri Ilich",
+                    ClosedDate = null,
+                    Priority = "Normal",
+                    Status = "Open"
+                },
+                new HelpdeskCase
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    OpenedBy = "Steve Rogers",
+                    OpenedDate = DateTime.UtcNow,
+                    Title = "Locked out of computer",
+                    Description = "Computer will turn on, but does not accept password.",
+                    AssignedTo = "Bob Smith",
+                    ClosedDate = null,
+                    Priority = "Urgent",
+                    Status = "Open"
+                },
+                new HelpdeskCase
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    OpenedBy = "Bharath Kumar",
+                    OpenedDate = DateTime.UtcNow,
+                    Title = "Windows update failure",
+                    Description = "Windows update fails to install.",
+                    AssignedTo = "Shri Ilich",
+                    ClosedDate = null,
+                    Priority = "Normal",
+                    Status = "Open"
+                }
+            };
+            
+
+
         }
 
         public IEnumerable<HelpdeskCase> GetAllCases()
@@ -18,21 +59,21 @@ namespace ITHelpdeskAPI.Services
             return _cases;
         }
 
-        public HelpdeskCase GetCaseById(Guid  id)
+        public HelpdeskCase GetCaseById(string id)
         {
             return _cases.FirstOrDefault(c => c.Id == id)!;
         }
 
         public void AddCase(HelpdeskCase helpdeskCase)
         {
-            helpdeskCase.Id = Guid.NewGuid();
+            helpdeskCase.Id = Guid.NewGuid().ToString();
             helpdeskCase.OpenedDate = DateTime.UtcNow;
             helpdeskCase.ClosedDate= null;
             helpdeskCase.Status = "Open";
             _cases.Add(helpdeskCase);
         }
 
-        public void UpdateCase(Guid id, HelpdeskCase updatedCase)
+        public void UpdateCase(string id, HelpdeskCase updatedCase)
         {
             var existingCase = GetCaseById(id);
             if (existingCase != null)
@@ -48,7 +89,7 @@ namespace ITHelpdeskAPI.Services
             }
         }
 
-        public void DeleteCase(Guid id)
+        public void DeleteCase(string id)
         {
             var helpdeskCase = GetCaseById(id);
             if (helpdeskCase != null)

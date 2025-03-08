@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 public class HelpdeskCase
 {
-     public Guid Id { get; set; }
+     public string? Id { get; set; }
     public string? OpenedBy { get; set; }
     public DateTime OpenedDate { get; set; }
     public string? Title { get; set; }
