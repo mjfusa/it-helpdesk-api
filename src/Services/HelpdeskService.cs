@@ -14,7 +14,7 @@ namespace ITHelpdeskAPI.Services
             {
                 new HelpdeskCase
                 {
-                    Id = "0f66832a-35f8-4e79-a97c-53f1a366cd15,
+                    Id = "0f66832a-35f8-4e79-a97c-53f1a366cd15",
                     OpenedBy = "John Freeman",
                     OpenedDate = DateTime.UtcNow,
                     Title = "Problem with VPN",
