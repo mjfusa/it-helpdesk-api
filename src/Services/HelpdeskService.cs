@@ -14,7 +14,7 @@ namespace ITHelpdeskAPI.Services
             {
                 new HelpdeskCase
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "0f66832a-35f8-4e79-a97c-53f1a366cd15,
                     OpenedBy = "John Freeman",
                     OpenedDate = DateTime.UtcNow,
                     Title = "Problem with VPN",
@@ -26,7 +26,7 @@ namespace ITHelpdeskAPI.Services
                 },
                 new HelpdeskCase
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "ce7fb80a-571d-4948-b5fe-944ba3e48a8c",
                     OpenedBy = "Steve Rogers",
                     OpenedDate = DateTime.UtcNow,
                     Title = "Locked out of computer",
@@ -38,7 +38,7 @@ namespace ITHelpdeskAPI.Services
                 },
                 new HelpdeskCase
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "173a8447-5bf6-4047-8af9-1ee76000bc09",
                     OpenedBy = "Bharath Kumar",
                     OpenedDate = DateTime.UtcNow,
                     Title = "Windows update failure",
