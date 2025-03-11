@@ -68,7 +68,7 @@ namespace ITHelpdeskAPI.Controllers
 
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update an existing helpdesk case", OperationId = "idUpdateCase", Description = "Updates an existing helpdesk case")]
-        [SwaggerResponse(204, "Helpdesk case updated")]
+        [SwaggerResponse(200, "Helpdesk case updated")]
         [SwaggerResponse(400, "Bad request")]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
@@ -76,27 +76,40 @@ namespace ITHelpdeskAPI.Controllers
         public ActionResult UpdateCase(
             [SwaggerParameter("Id of Case", Required = true)]
             string id,
-            [FromBody,SwaggerParameter("A Helpdeskcase object", Required = true)]
-            HelpdeskCase helpdeskCase)
+            [FromQuery,SwaggerParameter("Title of the case", Required = false)]
+            string? title = null,
+            [FromQuery,SwaggerParameter("Description of the case", Required = false)]
+            string? description = null,
+            [FromQuery,SwaggerParameter("Status of the case", Required = false)]
+            string? status = null,
+            [FromQuery,SwaggerParameter("Priority of the case", Required = false)]
+            string? priority = null,
+            [FromQuery,SwaggerParameter("Assigned user of the case", Required = false)]
+            string? assignedUser = null)
         {
-            if (helpdeskCase == null || helpdeskCase.Id != id)
-            {
-                return BadRequest();
-            }
-
             var existingCase = _helpdeskService.GetCaseById(id);
             if (existingCase == null)
             {
                 return NotFound();
             }
 
-            _helpdeskService.UpdateCase(id, helpdeskCase);
-            return NoContent();
-        }
+        var helpdeskCase = new HelpdeskCase
+            {
+                Id = id,
+                Title = title ?? existingCase.Title,
+                Description = description ?? existingCase.Description,
+                Status = status ?? existingCase.Status,
+                Priority = priority ?? existingCase.Priority,
+                AssignedTo = assignedUser ?? existingCase.AssignedTo
+            };
 
+            _helpdeskService.UpdateCase(id, helpdeskCase);
+            return Ok(helpdeskCase);
+        }
+        
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete a helpdesk case", OperationId = "idDeleteCase", Description = "Deletes a helpdesk case by its ID")]
-        [SwaggerResponse(204, "Helpdesk case deleted")]
+        [SwaggerResponse(200, "Helpdesk case deleted")]
         [SwaggerResponse(404, "Helpdesk case not found")]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Delete a helpdesk case")]
@@ -111,7 +124,7 @@ namespace ITHelpdeskAPI.Controllers
             }
 
             _helpdeskService.DeleteCase(id);
-            return NoContent();
+            return Ok("{}");
         }
     }
 }
