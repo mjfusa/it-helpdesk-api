@@ -5,14 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
 
 namespace ITHelpdeskAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]  // This requires authentication for all actions in the controller
     public class HelpdeskController : ControllerBase
     {
         private readonly HelpdeskService _helpdeskService;
+        // Define required scopes for the API
+        private static readonly string[] RequiredScopes = { "access_as_user" };
 
         public HelpdeskController(HelpdeskService helpdeskService)
         {
@@ -22,10 +27,18 @@ namespace ITHelpdeskAPI.Controllers
         [HttpGet]
         [SwaggerOperation(Summary = "Get all helpdesk cases", OperationId = "idGetAllCases", Description = "Returns all helpdesk cases")]
         [SwaggerResponse(200, "Returns all helpdesk cases", typeof(IEnumerable<HelpdeskCase>))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden")]
         [SwaggerResponse(500, "Internal server error")]
         [DisplayName("Get all helpdesk cases")]
         public ActionResult<IEnumerable<HelpdeskCase>> GetAllCases()
         {
+            // Verify the required scopes
+            HttpContext.VerifyUserHasAnyAcceptedScope(RequiredScopes);
+            
+            // Get the user identity from the claims
+            var userId = User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+            
             var cases = _helpdeskService.GetAllCases();
             return Ok(cases);
         }
