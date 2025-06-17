@@ -17,7 +17,8 @@ namespace ITHelpdeskAPI.Controllers
     {
         private readonly HelpdeskService _helpdeskService;
         // Define required scopes for the API
-        private static readonly string[] RequiredScopes = { "User.Read", "Cases.Read", "Cases.Write" };
+        private static readonly string[] RequiredScopes = { "User.Read" };
+        // private static readonly string[] RequiredScopes = { "User.Read", "Cases.Read", "Cases.Write" };
 
         public HelpdeskController(HelpdeskService helpdeskService)
         {
