@@ -9,6 +9,7 @@ using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 public class Startup
 {
@@ -18,12 +19,35 @@ public class Startup
     {
         Configuration = configuration;
     }
-
     public void ConfigureServices(IServiceCollection services)
     {
-        // // Add Microsoft Identity authentication
-         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-             .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+        // Add Microsoft Identity authentication with explicit audience validation
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApi(options =>
+            {
+                Configuration.GetSection("AzureAd").Bind(options);
+
+                // Explicitly set audience validation parameters
+                options.TokenValidationParameters.ValidAudience = Configuration["AzureAd:Audience"];
+                options.TokenValidationParameters.ValidateAudience = true;
+                options.TokenValidationParameters.ValidateIssuer = true;
+                options.TokenValidationParameters.ValidIssuer = $"https://login.microsoftonline.com/{Configuration["AzureAd:TenantId"]}/v2.0";
+
+                // Add event handler for debugging token validation failures
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("Token validated successfully");
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                        return Task.CompletedTask;
+                    }
+                };
+            }, options => { Configuration.GetSection("AzureAd").Bind(options); });
 
         // Add authorization policies if needed
         services.AddAuthorization(options =>
@@ -59,7 +83,9 @@ public class Startup
                         TokenUrl = new Uri($"https://login.microsoftonline.com/{Configuration["AzureAd:TenantId"]}/oauth2/v2.0/token"),
                         Scopes = new Dictionary<string, string>
                         {
-                            { "api://it-helpdesk-101.azurewebsites.net/access_as_user", "Access the API as a user" }
+                            { Configuration["AzureAd:Audience"] + "/access_as_user", "Access the API as a user" },
+                            { Configuration["AzureAd:Audience"] + "/Cases.Read", "Read helpdesk cases" },
+                            { Configuration["AzureAd:Audience"] + "/Cases.Write", "Write helpdesk cases" }
                         }
                     }
                 }
@@ -72,7 +98,7 @@ public class Startup
                     {
                         Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
                     },
-                    new[] { "api://it-helpdesk-101.azurewebsites.net/access_as_user" }
+                    new[] { Configuration["AzureAd:Audience"] + "/access_as_user" , Configuration["AzureAd:Audience"] + "/Cases.Read", Configuration["AzureAd:Audience"] + "/Cases.Write" }
                 }
             });
         });
@@ -95,6 +121,9 @@ public class Startup
                 builder.WithOrigins("https://it-helpdesk-101.azurewebsites.net")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
+                // builder.WithOrigins("https://ppcjm0mv-5001.usw3.devtunnels.ms")
+                //     .AllowAnyHeader()
+                //     .AllowAnyMethod();
             });
         });
     }
@@ -108,8 +137,10 @@ public class Startup
             {
                 options.PreSerializeFilters.Add((swagger, httpReq) =>
                 swagger.Servers.Add(new OpenApiServer { Url = $"https://it-helpdesk-101.azurewebsites.net" }));
+                // swagger.Servers.Add(new OpenApiServer { Url = $"https://ppcjm0mv-5001.usw3.devtunnels.ms" }));
             });
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "IT Helpdesk API v1");
                 c.OAuthClientId(Configuration["AzureAd:ClientId"]);
                 c.OAuthAppName("IT Helpdesk API - Swagger");
