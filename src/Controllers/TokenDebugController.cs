@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
-#if _DEBUG_
+//#if _DEBUG_
 namespace ITHelpdeskAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -74,4 +74,4 @@ namespace ITHelpdeskAPI.Controllers
         }
     }
 }
-#endif
+//#endif
