@@ -2,7 +2,7 @@
 # Make sure the MCP server is running before executing these requests
 
 #@baseUrl = https://localhost:5001/mcp
-@baseUrl = https://ppcjm0mv-5001.usw3.devtunnels.ms/mcp
+@baseUrl = https://it-helpdesk-101.azurewebsites.net/mcp
 @contentType = application/json
 @acceptHeader = application/json, text/event-stream
 

@@ -1,21 +1,7 @@
 {
-    "mcpServers": {
-        "it-helpdesk-api": {
-            "command": "c:/p/mcp/it-helpdesk-api/start-mcp-server.bat",
-            "args": [],
-            "transport": {
-                "type": "http",
-                "uri": "https://ppcjm0mv-5001.usw3.devtunnels.ms/mcp"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "options": {
-                "windowTitle": "IT Helpdesk MCP Server"
-            }
+    "servers": {
+        "it-helpdesk-mcp-server": {
+            "url": "https://it-helpdesk-101.azurewebsites.net/mcp"
         }
-    },
-    "defaults": {
-        "server": "it-helpdesk-api"
     }
 }
