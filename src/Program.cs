@@ -3,8 +3,6 @@ using Microsoft.Extensions.Hosting;
 
 namespace ITHelpdeskAPI
 {
-
-
     public class Program
     {
         public static void Main(string[] args)

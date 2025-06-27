@@ -5,11 +5,17 @@
             "args": [],
             "transport": {
                 "type": "http",
-                "uri": "https://localhost:5001/mcp"
+                "uri": "https://ppcjm0mv-5001.usw3.devtunnels.ms/mcp"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "options": {
+                "windowTitle": "IT Helpdesk MCP Server"
             }
         }
+    },
+    "defaults": {
+        "server": "it-helpdesk-api"
     }
 }

@@ -139,8 +139,7 @@ namespace ITHelpdeskAPI.Controllers
                 McpEndpoint = "/mcp",
                 AvailableUrls = new[]
                 {
-                    "http://localhost:5000/mcp",
-                    "https://localhost:5001/mcp"
+                    "https://it-helpdesk-101.azurewebsites.net:5001/mcp"
                 },
                 Note = "MCP uses JSON-RPC protocol. Use POST requests with proper JSON-RPC format.",
                 ExampleRequest = new

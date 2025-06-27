@@ -1,7 +1,8 @@
 # IT Helpdesk MCP API Test Suite
 # Make sure the MCP server is running before executing these requests
 
-@baseUrl = https://localhost:5001/mcp
+#@baseUrl = https://localhost:5001/mcp
+@baseUrl = https://ppcjm0mv-5001.usw3.devtunnels.ms/mcp
 @contentType = application/json
 @acceptHeader = application/json, text/event-stream
 
@@ -10,6 +11,15 @@
 # - Responses will come in the format: event: message\ndata: {json data}
 # - You'll need to parse the data part to get the actual JSON response
 # - In VS Code REST Client, you'll see the raw response including the SSE formatting
+
+# IMPORTANT: MCP Client Connection Issues
+# - This MCP implementation requires POST requests for all operations
+# - Some MCP clients incorrectly try to connect using GET requests, resulting in 404 errors
+# - If you're developing an MCP client, ensure it uses POST for all requests
+# - The server could be modified to handle GET requests by implementing a custom middleware that:
+#   1. Intercepts GET requests to the /mcp endpoint
+#   2. Returns a 405 Method Not Allowed with a helpful message instead of 404
+#   3. Or redirects to documentation explaining the correct usage
 
 ### 1. List all MCP tools
 POST {{baseUrl}}
@@ -233,3 +243,11 @@ Accept: {{acceptHeader}}
 # For example, in the response: data: {"result":{"content":[{"type":"text","text":"{\u0022id\u0022:\u00223717b06c-d2dd-4863-ae38-7ff7bffc446e\u0022,...
 # The ID is "3717b06c-d2dd-4863-ae38-7ff7bffc446e" (without quotes)
 # Copy this ID and use it in requests 6, 7, 8, and 9 where caseId is needed.
+
+### 13. Test GET request (MCP clients incorrectly using GET)
+# This will now return a helpful error message or redirect to documentation
+GET {{baseUrl}}
+Accept: {{acceptHeader}}
+
+### 14. Access MCP documentation
+GET https://ppcjm0mv-5001.usw3.devtunnels.ms/mcp-docs.html
