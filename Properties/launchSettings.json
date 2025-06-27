@@ -1,17 +1,26 @@
 {
-    "profiles": {
-      "IIS Express": {
-        "commandName": "IISExpress",
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
-      },
-      "it-helpdesk-api": {
-        "commandName": "Project",
-        "dotnetRunMessages": true,
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "it-helpdesk-api-localhost": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5000;https://localhost:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
+    },
+    "it-helpdesk-api-devtunnel": {
+      "commandName": "Project",
+      "applicationUrl": "https://ppcjm0mv.usw3.devtunnels.ms:5000;https://ppcjm0mv.usw3.devtunnels.ms:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
     }
   }
+}

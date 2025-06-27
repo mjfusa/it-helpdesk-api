@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+        "it-helpdesk-api": {
+            "command": "c:/p/mcp/it-helpdesk-api/start-mcp-server.bat",
+            "args": [],
+            "transport": {
+                "type": "http",
+                "uri": "https://localhost:5001/mcp"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    }
+}

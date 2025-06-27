@@ -1,0 +1,14 @@
+{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+        "name": "CreateHelpdeskCase",
+        "arguments": {
+            "title": "Test Helpdesk Case",
+            "description": "This is a test case created via MCP",
+            "openedBy": "API Tester",
+            "priority": "Normal"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "jsonrpc": "2.0",
+    "id": 6,
+    "method": "tools/call",
+    "params": {
+        "name": "GetHelpdeskCase",
+        "arguments": {
+            "caseId": "3717b06c-d2dd-4863-ae38-7ff7bffc446e"
+        }
+    }
+}

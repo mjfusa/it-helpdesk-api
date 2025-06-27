@@ -1,0 +1,13 @@
+{
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+        "name": "UpdateHelpdeskCase",
+        "arguments": {
+            "caseId": "3717b06c-d2dd-4863-ae38-7ff7bffc446e",
+            "status": "In Progress",
+            "assignedTo": "Support Team"
+        }
+    }
+}

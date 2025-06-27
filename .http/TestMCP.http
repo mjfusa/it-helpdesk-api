@@ -1,0 +1,235 @@
+# IT Helpdesk MCP API Test Suite
+# Make sure the MCP server is running before executing these requests
+
+@baseUrl = https://localhost:5001/mcp
+@contentType = application/json
+@acceptHeader = application/json, text/event-stream
+
+# Notes on MCP Response Format:
+# - The MCP server uses Server-Sent Events (SSE) for responses
+# - Responses will come in the format: event: message\ndata: {json data}
+# - You'll need to parse the data part to get the actual JSON response
+# - In VS Code REST Client, you'll see the raw response including the SSE formatting
+
+### 1. List all MCP tools
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/list",
+    "params": {}
+}
+
+### 2. Initialize MCP connection
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "initialize",
+    "params": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {},
+        "clientInfo": {
+            "name": "test-client",
+            "version": "1.0.0"
+        }
+    }
+}
+
+### 3. Create a new helpdesk case
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+        "name": "CreateHelpdeskCase",
+        "arguments": {
+            "title": "New Test Case",
+            "description": "This is a test case created via REST Client",
+            "openedBy": "REST Client Tester",
+            "priority": "Normal"
+        }
+    }
+}
+
+### 4. Get all helpdesk cases
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+        "name": "GetAllHelpdeskCases",
+        "arguments": {}
+    }
+}
+
+### 5. Search for helpdesk cases containing "test"
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+        "name": "SearchHelpdeskCases",
+        "arguments": {
+            "searchTerm": "test",
+            "status": "Open"
+        }
+    }
+}
+
+### 6. Get a specific helpdesk case by ID
+# Replace the caseId with an actual ID from the previous responses
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 6,
+    "method": "tools/call",
+    "params": {
+        "name": "GetHelpdeskCase",
+        "arguments": {
+            "caseId": "0f66832a-35f8-4e79-a97c-53f1a366cd15"
+        }
+    }
+}
+
+### 7. Update a helpdesk case
+# Replace the caseId with an actual ID from the previous responses
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 7,
+    "method": "tools/call",
+    "params": {
+        "name": "UpdateHelpdeskCase",
+        "arguments": {
+            "caseId": "0f66832a-35f8-4e79-a97c-53f1a366cd15",
+            "status": "In Progress",
+            "assignedTo": "Support Team",
+            "priority": "High"
+        }
+    }
+}
+
+### 8. Delete a helpdesk case
+# Replace the caseId with an actual ID from the previous responses
+# Caution: This will delete the case permanently
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 8,
+    "method": "tools/call",
+    "params": {
+        "name": "DeleteHelpdeskCase",
+        "arguments": {
+            "caseId": "173a8447-5bf6-4047-8af9-1ee76000bc09"
+        }
+    }
+}
+
+### 9. Verify case was deleted
+# Should return error or not found if the case was successfully deleted
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 9,
+    "method": "tools/call",
+    "params": {
+        "name": "GetHelpdeskCase",
+        "arguments": {
+             "caseId": "173a8447-5bf6-4047-8af9-1ee76000bc09"
+       }
+    }
+}
+
+### 10. Search with multiple filters
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 10,
+    "method": "tools/call",
+    "params": {
+        "name": "SearchHelpdeskCases",
+        "arguments": {
+            "searchTerm": "Computer",
+            "status": "Open",
+            "priority": "Urgent"
+        }
+    }
+}
+
+### 11. Create a high priority case
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 11,
+    "method": "tools/call",
+    "params": {
+        "name": "CreateHelpdeskCase",
+        "arguments": {
+            "title": "Critical Server Issue",
+            "description": "Production server is not responding to requests",
+            "openedBy": "System Monitor",
+            "priority": "Urgent"
+        }
+    }
+}
+
+### 12. Search for urgent cases
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+Accept: {{acceptHeader}}
+
+{
+    "jsonrpc": "2.0",
+    "id": 12,
+    "method": "tools/call",
+    "params": {
+        "name": "SearchHelpdeskCases",
+        "arguments": {
+            "priority": "Urgent"
+        }
+    }
+}
+
+# Note: How to Extract and Use Case IDs
+# When you get a response from creating a case or listing cases, you'll want to extract the ID for use in other requests.
+# The ID will be in the response data, typically in JSON format with escaped quotes.
+# For example, in the response: data: {"result":{"content":[{"type":"text","text":"{\u0022id\u0022:\u00223717b06c-d2dd-4863-ae38-7ff7bffc446e\u0022,...
+# The ID is "3717b06c-d2dd-4863-ae38-7ff7bffc446e" (without quotes)
+# Copy this ID and use it in requests 6, 7, 8, and 9 where caseId is needed.

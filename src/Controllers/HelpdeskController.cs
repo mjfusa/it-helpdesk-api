@@ -1,4 +1,5 @@
 using ITHelpdeskAPI.Services;
+using ITHelpdeskAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -125,6 +126,39 @@ namespace ITHelpdeskAPI.Controllers
 
             _helpdeskService.DeleteCase(id);
             return Ok("{}");
+        }
+
+        [HttpGet("mcp-health")]
+        [SwaggerOperation(Summary = "Check MCP server health", OperationId = "idMcpHealth", Description = "Returns MCP server status and endpoint information")]
+        [SwaggerResponse(200, "Returns MCP server health information")]
+        public ActionResult GetMcpHealth()
+        {
+            return Ok(new
+            {
+                Status = "MCP Server is running",
+                McpEndpoint = "/mcp",
+                AvailableUrls = new[]
+                {
+                    "http://localhost:5000/mcp",
+                    "https://localhost:5001/mcp"
+                },
+                Note = "MCP uses JSON-RPC protocol. Use POST requests with proper JSON-RPC format.",
+                ExampleRequest = new
+                {
+                    jsonrpc = "2.0",
+                    id = "1",
+                    method = "initialize",
+                    @params = new
+                    {
+                        protocolVersion = "1.0.0",
+                        clientInfo = new
+                        {
+                            name = "test-client",
+                            version = "1.0.0"
+                        }
+                    }
+                }
+            });
         }
     }
 }
