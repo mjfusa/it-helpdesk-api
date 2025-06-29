@@ -1,8 +1,8 @@
 # IT Helpdesk MCP API Test Suite
 # Make sure the MCP server is running before executing these requests
 
-#@baseUrl = https://localhost:5001/mcp
-@baseUrl = https://it-helpdesk-101.azurewebsites.net/mcp
+@baseUrl = https://localhost:5001/mcp
+#@baseUrl = https://it-helpdesk-101.azurewebsites.net/mcp
 @contentType = application/json
 @acceptHeader = application/json, text/event-stream
 
@@ -13,8 +13,9 @@
 # 3. Sign in with your Azure AD credentials
 # 4. Execute a request in the Swagger UI to get an authenticated response
 # 5. Get the Bearer token from the CURL command that calls the Helpdesk API
-# 6. Paste the token below (without the "Bearer " prefix
+# 6. Paste the token below (without the "Bearer " prefix)
 @authToken = 
+
 # Notes on MCP Response Format:
 # - The MCP server uses Server-Sent Events (SSE) for responses
 # - Responses will come in the format: event: message\ndata: {json data}
@@ -34,6 +35,7 @@
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -46,6 +48,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -65,6 +68,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -85,6 +89,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -100,6 +105,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -119,6 +125,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -137,6 +144,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -159,6 +167,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -177,6 +186,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -194,6 +204,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -213,6 +224,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -233,6 +245,7 @@ Accept: {{acceptHeader}}
 POST {{baseUrl}}
 Content-Type: {{contentType}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 {
     "jsonrpc": "2.0",
@@ -257,6 +270,7 @@ Accept: {{acceptHeader}}
 # This will now return a helpful error message or redirect to documentation
 GET {{baseUrl}}
 Accept: {{acceptHeader}}
+Authorization: Bearer {{authToken}}
 
 ### 14. Access MCP documentation
 GET https://ppcjm0mv-5001.usw3.devtunnels.ms/mcp-docs.html
