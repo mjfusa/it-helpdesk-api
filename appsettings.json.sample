@@ -1,0 +1,26 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "Domain": "<<Your REST / MCP service Domain>>",
+    "TenantId": "<<Your REST / MCP service Tenant ID>>",
+    "ClientId": "<<Your REST / MCP service app registration Client ID>>",
+    "CallbackPath": "/swagger/oauth2-redirect.html",
+    "Scopes": "Cases.Write Cases.Read access_as_user",
+    "Audience": "<<Your REST / MCP service Audience>>"
+  },
+  "Endpoints": {
+    "it-helpdesk-api": {
+      "RunMode": "production",
+      "LocalUrl": "https://localhost:5001",
+      "DevTunnelUrl": "<<Your Dev Tunnel URL Endpoint>>",
+      "ProductionUrl": "<<Your Production URL Endpoint>>"
+    }
+  }
+}
