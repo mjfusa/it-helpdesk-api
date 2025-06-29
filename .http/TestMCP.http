@@ -6,6 +6,15 @@
 @contentType = application/json
 @acceptHeader = application/json, text/event-stream
 
+# Authentication token - Replace with your actual JWT/Bearer token from Azure AD
+# To obtain a token:
+# 1. Go to https://it-helpdesk-101.azurewebsites.net/swagger/index.html
+# 2. Click on the "Authorize" button
+# 3. Sign in with your Azure AD credentials
+# 4. Execute a request in the Swagger UI to get an authenticated response
+# 5. Get the Bearer token from the CURL command that calls the Helpdesk API
+# 6. Paste the token below (without the "Bearer " prefix
+@authToken = 
 # Notes on MCP Response Format:
 # - The MCP server uses Server-Sent Events (SSE) for responses
 # - Responses will come in the format: event: message\ndata: {json data}
